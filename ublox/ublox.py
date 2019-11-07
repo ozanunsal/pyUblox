@@ -51,6 +51,7 @@ MSG_NAV_SBAS      = 0x32
 MSG_NAV_ORB 	  = 0x34
 MSG_NAV_SAT 	  = 0x35
 MSG_NAV_TIMEGAL   = 0x25
+MSG_NAV_EOE       = 0x61
 
 # RXM messages
 MSG_RXM_RAW    = 0x10
@@ -100,7 +101,7 @@ MSG_CFG_RXM = 0x11
 MSG_CFG_SBAS = 0x16
 MSG_CFG_TMODE2 = 0x3D
 MSG_CFG_TMODE = 0x1D
-MSG_CFG_TPS = 0x31
+MSG_CFG_TP5 = 0x31
 MSG_CFG_TP = 0x07
 MSG_CFG_GNSS = 0x3E
 
@@ -426,6 +427,9 @@ msg_types = {
     (CLASS_NAV, MSG_NAV_TIMEGAL): UBloxDescriptor('NAV_TIMEGAL',
                                                   '<IIihbBI',
                                                   ['iTOW', 'galTow', 'fGalTow', 'galWno', 'leaps', 'valid', 'tAcc', 'min', 'sec', 'valid']),
+    (CLASS_NAV, MSG_NAV_EOE)    : UBloxDescriptor('NAV_EOE',
+                                                  '<I',
+                                                  ['iTOW']),
     (CLASS_NAV, MSG_NAV_CLOCK)  : UBloxDescriptor('NAV_CLOCK',
                                                   '<IiiII',
                                                   ['iTOW', 'clkB', 'clkD', 'tAcc', 'fAcc']),
@@ -534,7 +538,11 @@ msg_types = {
                                                   ['dur', 'meanX', 'meanY', 'meanZ', 'meanV',
                                                    'obs', 'valid', 'active', 'reserved1']),
     (CLASS_INF, MSG_INF_ERROR)  : UBloxDescriptor('INF_ERR', '<18s', ['str']),
-    (CLASS_INF, MSG_INF_DEBUG)  : UBloxDescriptor('INF_DEBUG', '<18s', ['str'])
+    (CLASS_INF, MSG_INF_DEBUG)  : UBloxDescriptor('INF_DEBUG', '<18s', ['str']),
+    (CLASS_CFG, MSG_CFG_TP5)    : UBloxDescriptor('CFG_TP5', '<BBHhhIIIIiI',
+                                                  ['tpIdx', 'version', 'reserved1', 'antCableDelay', 'rfGroupDelay',
+                                                   'freqPeriod', 'freqPeriodLock', 'pulseLenRatio', 'pulseLenRatioLock',
+                                                   'userConfigDelay', 'flags'])
 }
 
 if sys.version_info < (3,):
